@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 import json
 from kafka import KafkaProducer
+
+
 from services.servic_to_email import check_email
 
 producer = KafkaProducer(

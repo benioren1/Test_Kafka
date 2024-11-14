@@ -30,11 +30,11 @@ consumer_p = KafkaConsumer(
 print("Consumer started, waiting for messages...")
 
 for message in consumer_p:
-    message_str = message
-    print(f"Consumer_P received message: {message}")
-    message_send = json.loads(message)
+    message_str = message.value
+    print(f"Consumer_P received message: {message.value}")
+    # message_send = json.loads(message)
     conn = get_collection()
-    conn.insert_one(message_send)  # שמי��ה הו��עה למ��ד ��תו��ים
+    conn.insert_one(message_str)
 
     try:
         consumer_p.commit()

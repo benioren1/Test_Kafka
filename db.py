@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
 
-DATABASE_URL = "postgresql://postgres:1234@localhost/rabbitdata"
+DATABASE_URL = "postgresql://postgres:1234@localhost/kafka_test_message"
 engine = create_engine(DATABASE_URL)
 
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)

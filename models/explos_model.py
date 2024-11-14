@@ -1,11 +1,11 @@
 from sqlalchemy import Column, Integer, String, Float
 
-from data_base.db import Base
+from db import Base
 
 
-class Hostage(Base):
-    __tablename__ = "suspicious_hostage_content"
-    id = Column(Integer, primary_key=True, index=True)
+class Explos(Base):
+    __tablename__ = "suspicious_explosive_content"
+    id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String, index=True)
     username = Column(String)
     ip_address = Column(String)
