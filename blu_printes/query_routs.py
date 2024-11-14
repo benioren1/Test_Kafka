@@ -79,7 +79,7 @@ def get_all_messages_by_hostage_name():
 
 @bp_query.route('/world_of_all', methods=['GET'])
 def get_all_messages_by_email_and_world_frequency():
-    list_world_connect = ["the","what"]
+    list_world_connect = ["the","what","them","to"]
     my_dict = {}
     all_ho = session.query(Hostage)
     messages_ho = [message.to_dict() for message in all_ho]
@@ -93,13 +93,19 @@ def get_all_messages_by_email_and_world_frequency():
     for message in result:
         message["_id"] = str(message["_id"])
         messages.append(message['sentences'])
+    mesmes = []
     for i in messages:
         for letter in i:
             s = letter.split(' ')
             for j in s:
-                if j not in my_dict:
-                    my_dict[j] = 0
-                my_dict[j] += 1
+                mesmes.append(j)
+    for i in mesmes:
+        if i in list_world_connect:
+            mesmes.remove(i)
+    for i in mesmes:
+        if i not in my_dict:
+            my_dict[i] = 0
+        my_dict[i] += 1
 
     all_messages = messages_ex + messages_ho
     sentences = [message['sentences'] for message in all_messages]
