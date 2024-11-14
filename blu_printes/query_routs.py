@@ -1,3 +1,5 @@
+import json
+
 from flask import Blueprint , request
 from pymongo import MongoClient
 from collections import Counter
@@ -74,4 +76,44 @@ def get_all_messages_by_hostage_name():
         my_dict[letter] += 1
     return jsonify({"world_messages": my_dict}), 200
 
+
+@bp_query.route('/world_of_all', methods=['GET'])
+def get_all_messages_by_email_and_world_frequency():
+    list_world_connect = ["the","what"]
+    my_dict = {}
+    all_ho = session.query(Hostage)
+    messages_ho = [message.to_dict() for message in all_ho]
+
+    all_ex = session.query(Explos)
+    messages_ex = [message.to_dict() for message in all_ex]
+
+    conn = get_collection()
+    result = conn.find()
+    messages = []
+    for message in result:
+        message["_id"] = str(message["_id"])
+        messages.append(message['sentences'])
+    for i in messages:
+        for letter in i:
+            s = letter.split(' ')
+            for j in s:
+                if j not in my_dict:
+                    my_dict[j] = 0
+                my_dict[j] += 1
+
+    all_messages = messages_ex + messages_ho
+    sentences = [message['sentences'] for message in all_messages]
+    tst = " ".join(sentences)
+    cleaned_text = tst.replace('.', ' ').replace(',', ' ').replace(';', ' ').replace('!', ' ').replace('?', ' ')
+    words = cleaned_text.split()
+    for i in words:
+        if i in list_world_connect:
+            words.remove(i)
+    for letter in words:
+        if letter not in my_dict:
+            my_dict[letter] = 0
+        my_dict[letter] += 1
+    max_val = max(my_dict.values())
+    res = list(filter(lambda x: my_dict[x] == max_val, my_dict))
+    return jsonify({"world": res,"value":max_val}), 200
 
