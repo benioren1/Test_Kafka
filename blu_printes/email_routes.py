@@ -19,6 +19,9 @@ def get_email():
     print(result)
     if result == "hostage":
         producer.send('topic_hostage_1', value=data)
+    if result == "explos":
+        producer.send('topic_explos_1', value=data)
+
 
 
     # conn.commit()
