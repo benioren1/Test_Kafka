@@ -1,6 +1,7 @@
 from flask import Flask
 from blu_printes.email_routes import bp_email
 from db import engine, Base
+from blu_printes.query_routs import bp_query
 
 app = Flask(__name__)
 
@@ -21,6 +22,7 @@ with app.app_context():
 Base.metadata.create_all(bind=engine)
 
 app.register_blueprint(bp_email)
+app.register_blueprint(bp_query)
 
 
 if __name__ == '__main__':
